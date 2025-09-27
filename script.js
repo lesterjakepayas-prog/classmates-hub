@@ -17,8 +17,7 @@ const firebaseConfig = {
   projectId: "classmatehub-baps",
   storageBucket: "classmatehub-baps.firebasestorage.app",
   messagingSenderId: "308203350949",
-  appId: "1:308203350949:web:55e12866cbbbd0b623d64c"
-  measurementId: "G-RPRZXWJB1J"
+  appId: "1:308203350949:web:55e12866cbbbd0b623d64c" 
 };
 
 // Initialize Firebase
@@ -87,4 +86,5 @@ onAuthStateChanged(auth, user => {
     document.getElementById("logout-box").style.display = "none";
   }
 });
+
 
