@@ -1,37 +1,68 @@
 body {
   font-family: Arial, sans-serif;
   background: #f0f2f5;
-  text-align: center;
-  padding: 20px;
+  margin: 0;
+  padding: 0;
 }
-.login-box {
-  margin: 100px auto;
-  width: 300px;
+
+.container {
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 30px;
+  background: #fff;
   padding: 20px;
-  background: white;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px #999;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
-input, textarea {
-  width: 80%;
-  margin: 10px;
+
+h1, h2, h3 {
+  text-align: center;
+  color: #333;
+}
+
+.box {
+  margin-bottom: 20px;
+}
+
+input, textarea, button {
+  width: 100%;
   padding: 10px;
+  margin-top: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
+
 button {
-  padding: 10px 15px;
-  margin: 5px;
-  cursor: pointer;
   background: #1877f2;
   color: white;
   border: none;
-  border-radius: 5px;
+  cursor: pointer;
 }
-#posts, #chatBox {
-  border: 1px solid #ccc;
-  background: white;
-  padding: 10px;
-  margin: 10px auto;
-  width: 60%;
+
+button:hover {
+  background: #165cdb;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background: #1877f2;
+  color: white;
+  padding: 15px;
+}
+
+#posts p, #chatMessages p {
+  background: #eee;
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.chat-box {
   height: 200px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
