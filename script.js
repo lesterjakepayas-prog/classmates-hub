@@ -1,67 +1,88 @@
-// ================= FIREBASE SETUP =================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } 
-  from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } 
-  from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+// Import Firebase SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// 🔥 Paste mo dito yung config snippet na kinuha mo sa Firebase console
+// Your Firebase config (ilagay mo dito yung totoong values mula sa Firebase Console)
 const firebaseConfig = {
-  apiKey: "AIzaSyAB2s5en5rGGarYUl6HwlYASMzyDjg4QOw"",
-  authDomain: "classmatehub-baps.firebaseapp.com",
-  projectId: "classmatehub-baps",
-  storageBucket: "classmatehub-baps.firebasestorage.app",
-  messagingSenderId: "308203350949",
-  appId: "1:308203350949:web:55e12866cbbbd0b623d64c"
-  measurementId: "G-RPRZXWJB1J"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
-// Init Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
 
-// ================= AUTH =================
-window.register = function () {
-  const email = document.getElementById("registerEmail").value;
-  const password = document.getElementById("registerPassword").value;
+// Register
+function register() {
+  const email = document.getElementById("register-email").value;
+  const password = document.getElementById("register-password").value;
   createUserWithEmailAndPassword(auth, email, password)
-    .then(() => alert("Registration successful!"))
-    .catch((err) => alert(err.message));
-};
-
-window.login = function () {
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      alert("Login success!");
-      window.location.href = "home.html";
+    .then(userCredential => {
+      document.getElementById("auth-status").innerText = "Registered as " + userCredential.user.email;
     })
-    .catch((err) => alert(err.message));
-};
+    .catch(error => {
+      document.getElementById("auth-status").innerText = "Error: " + error.message;
+    });
+}
+window.register = register;
 
-window.logout = function () {
+// Login
+function login() {
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+  signInWithEmailAndPassword(auth, email, password)
+    .then(userCredential => {
+      document.getElementById("auth-status").innerText = "Logged in as " + userCredential.user.email;
+    })
+    .catch(error => {
+      document.getElementById("auth-status").innerText = "Error: " + error.message;
+    });
+}
+window.login = login;
+
+// Google Login
+function googleLogin() {
+  signInWithPopup(auth, provider)
+    .then(result => {
+      document.getElementById("auth-status").innerText = "Google login: " + result.user.email;
+    })
+    .catch(error => {
+      document.getElementById("auth-status").innerText = "Error: " + error.message;
+    });
+}
+window.googleLogin = googleLogin;
+
+// Logout
+function logout() {
   signOut(auth).then(() => {
-    window.location.href = "index.html";
+    document.getElementById("auth-status").innerText = "Logged out successfully.";
+    document.getElementById("logout-box").style.display = "none";
+  }).catch(error => {
+    document.getElementById("auth-status").innerText = "Error: " + error.message;
   });
-};
+}
+window.logout = logout;
 
-// ================= POSTS =================
-const postsRef = collection(db, "posts");
-
-window.postAnnouncement = function () {
-  const text = document.getElementById("postText").value;
-  if (!text.trim()) return;
-  addDoc(postsRef, {
-    text: text,
-    createdAt: new Date()
-  });
-  document.getElementById("postText").value = "";
-};
-
-function loadPosts() {
-  const q = query(postsRef, orderBy("createdAt", "desc"));
-  onSnapshot(q, (snapshot) => {
-    const container = document.getElementById("posts");
-
+// Auth state listener
+onAuthStateChanged(auth, user => {
+  if (user) {
+    document.getElementById("auth-status").innerText = "Logged in: " + user.email;
+    document.getElementById("logout-box").style.display = "block";
+  } else {
+    document.getElementById("auth-status").innerText = "Not logged in";
+    document.getElementById("logout-box").style.display = "none";
+  }
+});
