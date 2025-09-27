@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ClassmateHub - News Feed</title>
+</head>
+<body>
+  <h2>Welcome to the News Feed</h2>
+  <p id="auth-status">Checking login...</p>
+
+  <!-- Post Form -->
+  <div id="post-box" style="display:none;">
+    <textarea id="post-content" placeholder="What's on your mind?" rows="3" cols="40"></textarea><br>
+    <button onclick="createPost()">Post</button>
+  </div>
+
+  <!-- Posts Container -->
+  <h3>All Posts</h3>
+  <div id="posts"></div>
+
+  <!-- Logout -->
+  <div id="logout-box" style="display:none;">
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      serverTimestamp, 
+      query, 
+      orderBy, 
+      onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // Firebase config (same as ginamit mo dati)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAB2s5en5rGGarYUl6HwlYASMzyDjg4QOw",
+      authDomain: "classmatehub-baps.firebaseapp.com",
+      projectId: "classmatehub-baps",
+      storageBucket: "classmatehub-baps.firebasestorage.app",
+      messagingSenderId: "308203350949",
+      appId: "1:308203350949:web:55e12866cbbbd0b623d64c",
+      measurementId: "G-RPRZXWJB1J"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Create Post
+    async function createPost() {
+      const content = document.getElementById("post-content").value;
+      if (!content.trim()) {
+        alert("Please write something first.");
+        return;
+      }
+      try {
+        await addDoc(collection(db, "posts"), {
+          author: auth.currentUser.email,
+          content: content,
+          timestamp: serverTimestamp()
+        });
+        document.getElementById("post-content").value = "";
+      } catch (error) {
+        alert("Error posting: " + error.message);
+      }
+    }
+    window.createPost = createPost;
+
+    // Logout
+    function logout() {
+      signOut(auth).then(() => {
+        window.location.href = "index.html"; // balik login page
+      }).catch(error => {
+        alert("Logout error: " + error.message);
+      });
+    }
+    window.logout = logout;
+
+    // Auth state listener
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        document.getElementById("auth-status").innerText = "Logged in as " + user.email;
+        document.getElementById("logout-box").style.display = "block";
+        document.getElementById("post-box").style.display = "block";
+
+        // Load posts in real time
+        const postsContainer = document.getElementById("posts");
+        const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+        onSnapshot(q, snapshot => {
+          postsContainer.innerHTML = "";
+          snapshot.forEach(doc => {
+            const post = doc.data();
+            const div = document.createElement("div");
+            div.style.border = "1px solid #ccc";
+            div.style.margin = "10px";
+            div.style.padding = "10px";
+            div.innerHTML = `<b>${post.author}</b><br>${post.content}<br><small>${post.timestamp?.toDate() || ""}</small>`;
+            postsContainer.appendChild(div);
+          });
+        });
+
+      } else {
+        document.getElementById("auth-status").innerText = "Not logged in";
+        document.getElementById("logout-box").style.display = "none";
+        document.getElementById("post-box").style.display = "none";
+        window.location.href = "index.html"; // redirect if not logged in
+      }
+    });
+  </script>
+</body>
+</html>
