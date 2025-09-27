@@ -64,5 +64,27 @@ button:hover {
   overflow-y: auto;
   background: #fafafa;
   border: 1px solid #ccc;
+
+  .navbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.navbar button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #6a5acd;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.navbar button:hover {
+  background: #483d8b;
+}
+
   padding: 10px;
 }
+
