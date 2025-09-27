@@ -34,6 +34,7 @@ function register() {
     .then(userCredential => {
       document.getElementById("auth-status").innerText =
         "Registered as " + userCredential.user.email;
+      window.location.href = "feed.html"; // redirect after register
     })
     .catch(error => {
       document.getElementById("auth-status").innerText =
@@ -50,7 +51,7 @@ function login() {
     .then(userCredential => {
       document.getElementById("auth-status").innerText =
         "Logged in as " + userCredential.user.email;
-      document.getElementById("logout-box").style.display = "block";
+      window.location.href = "feed.html"; // redirect after login
     })
     .catch(error => {
       document.getElementById("auth-status").innerText =
@@ -65,7 +66,7 @@ function googleLogin() {
     .then(result => {
       document.getElementById("auth-status").innerText =
         "Google login: " + result.user.email;
-      document.getElementById("logout-box").style.display = "block";
+      window.location.href = "feed.html"; // redirect after Google login
     })
     .catch(error => {
       document.getElementById("auth-status").innerText =
@@ -76,27 +77,23 @@ window.googleLogin = googleLogin;
 
 // Logout
 function logout() {
-  signOut(auth)
-    .then(() => {
-      document.getElementById("auth-status").innerText =
-        "Logged out successfully.";
-      document.getElementById("logout-box").style.display = "none";
-    })
-    .catch(error => {
-      document.getElementById("auth-status").innerText =
-        "Error: " + error.message;
-    });
+  signOut(auth).then(() => {
+    document.getElementById("auth-status").innerText =
+      "Logged out successfully.";
+    document.getElementById("logout-box").style.display = "none";
+    window.location.href = "index.html"; // balik sa login page
+  }).catch(error => {
+    document.getElementById("auth-status").innerText =
+      "Error: " + error.message;
+  });
 }
 window.logout = logout;
 
-// Auth state listener
+// Auth state listener (optional info only)
 onAuthStateChanged(auth, user => {
   if (user) {
-    document.getElementById("auth-status").innerText =
-      "Logged in: " + user.email;
-    document.getElementById("logout-box").style.display = "block";
+    console.log("Logged in:", user.email);
   } else {
-    document.getElementById("auth-status").innerText = "Not logged in";
-    document.getElementById("logout-box").style.display = "none";
+    console.log("Not logged in");
   }
 });
