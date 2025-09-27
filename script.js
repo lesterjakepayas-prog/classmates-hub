@@ -5,14 +5,14 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } 
   from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-// Replace this config with your Firebase project config
+// 🔥 Paste mo dito yung config snippet na kinuha mo sa Firebase console
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
+  apiKey: "PASTE_YOUR_KEY_HERE",
+  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId: "PASTE_YOUR_APP_ID"
 };
 
 // Init Firebase
@@ -63,37 +63,3 @@ function loadPosts() {
   const q = query(postsRef, orderBy("createdAt", "desc"));
   onSnapshot(q, (snapshot) => {
     const container = document.getElementById("posts");
-    container.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      container.innerHTML += `<p>📢 ${data.text}</p>`;
-    });
-  });
-}
-if (document.getElementById("posts")) loadPosts();
-
-// ================= CHAT =================
-const chatRef = collection(db, "chat");
-
-window.sendMessage = function () {
-  const text = document.getElementById("chatText").value;
-  if (!text.trim()) return;
-  addDoc(chatRef, {
-    text: text,
-    createdAt: new Date()
-  });
-  document.getElementById("chatText").value = "";
-};
-
-function loadChat() {
-  const q = query(chatRef, orderBy("createdAt", "asc"));
-  onSnapshot(q, (snapshot) => {
-    const container = document.getElementById("chatMessages");
-    container.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      container.innerHTML += `<p>💬 ${data.text}</p>`;
-    });
-  });
-}
-if (document.getElementById("chatMessages")) loadChat();
