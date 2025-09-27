@@ -7,12 +7,13 @@ import { getFirestore, collection, addDoc, query, orderBy, onSnapshot }
 
 // 🔥 Paste mo dito yung config snippet na kinuha mo sa Firebase console
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_KEY_HERE",
-  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
-  messagingSenderId: "PASTE_YOUR_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyAB2s5en5rGGarYUl6HwlYASMzyDjg4QOw"",
+  authDomain: "classmatehub-baps.firebaseapp.com",
+  projectId: "classmatehub-baps",
+  storageBucket: "classmatehub-baps.firebasestorage.app",
+  messagingSenderId: "308203350949",
+  appId: "1:308203350949:web:55e12866cbbbd0b623d64c"
+  measurementId: "G-RPRZXWJB1J"
 };
 
 // Init Firebase
@@ -63,3 +64,4 @@ function loadPosts() {
   const q = query(postsRef, orderBy("createdAt", "desc"));
   onSnapshot(q, (snapshot) => {
     const container = document.getElementById("posts");
+
