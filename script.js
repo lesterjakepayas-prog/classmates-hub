@@ -12,12 +12,13 @@ import {
 
 // Your Firebase config (ilagay mo dito yung totoong values mula sa Firebase Console)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAB2s5en5rGGarYUl6HwlYASMzyDjg4QOw",
+  authDomain: "classmatehub-baps.firebaseapp.com",
+  projectId: "classmatehub-baps",
+  storageBucket: "classmatehub-baps.firebasestorage.app",
+  messagingSenderId: "308203350949",
+  appId: "1:308203350949:web:55e12866cbbbd0b623d64c"
+  measurementId: "G-RPRZXWJB1J"
 };
 
 // Initialize Firebase
@@ -86,3 +87,4 @@ onAuthStateChanged(auth, user => {
     document.getElementById("logout-box").style.display = "none";
   }
 });
+
