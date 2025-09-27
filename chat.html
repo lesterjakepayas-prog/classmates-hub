@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classmates Hub - Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Classmates Hub - Chat</h1>
+    <button onclick="logout()">Logout</button>
+
+    <div class="box">
+      <h2>Send Message</h2>
+      <input type="email" id="receiver-email" placeholder="Receiver's Email">
+      <textarea id="message-content" placeholder="Type your message..."></textarea>
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <div class="box">
+      <h2>Messages</h2>
+      <div id="messages"></div>
+    </div>
+  </div>
+
+  <script type="module" src="chat.js"></script>
+</body>
+</html>
