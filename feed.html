@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Classmates Hub - News Feed</title>
+  <title>News Feed</title>
   <link rel="stylesheet" href="style.css">
+  <script type="module" src="feed.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Classmates Hub - News Feed</h1>
-    <button onclick="logout()">Logout</button>
-
-    <div class="box">
-      <h2>Create Post</h2>
-      <textarea id="post-content" placeholder="What's on your mind?"></textarea>
-      <button onclick="createPost()">Post</button>
-    </div>
-
-    <div class="box">
-      <h2>All Posts</h2>
-      <div id="posts"></div>
-    </div>
+  <div class="navbar">
+    <button onclick="window.location.href='feed.html'">🏠 Feed</button>
+    <button onclick="window.location.href='profile.html'">👤 Profile</button>
+    <button onclick="window.location.href='chat.html'">💬 Chat</button>
+    <button onclick="logout()">🚪 Logout</button>
   </div>
 
-  <script type="module" src="feed.js"></script>
+  <div class="container">
+    <h1>News Feed</h1>
+
+    <textarea id="post-content" placeholder="What's on your mind?"></textarea>
+    <button onclick="createPost()">Post</button>
+
+    <h2>All Posts</h2>
+    <div id="posts"></div>
+  </div>
 </body>
 </html>
